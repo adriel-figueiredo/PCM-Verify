@@ -1,4 +1,4 @@
-# <img src="https://i.imgur.com/PHUEcAj.png" alt="PCM" width="50"/>PCM Verify
+# <img src="https://i.imgur.com/PHUEcAj.png" alt="PCM" width="30"/> PCM Verify
 
 > [!WARNING]
 > [Node.js](https://nodejs.org/en) version required: 22.12.0 or higher\
