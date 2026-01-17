@@ -20,6 +20,5 @@
 
 ## Credits
 
-Idea by piloynaldo\
-Testers: lucaasxz, raphaz_4 and dxrzinh\
+Testers: lucaasxz, raphaz_4, piloynaldo and dxrzinh\
 Made by alex.o3
