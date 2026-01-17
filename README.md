@@ -7,8 +7,9 @@
 > [Discord.js](https://discord.js.org) version required: 14.24.2 or higher
 > [Express.js](https://expressjs.com) version required: 5.2.1 or higher
 
-> [NOTE]
+> [!NOTE]
 > This bot was made with [Constatic base](https://constatic-docs.vercel.app/en)
+> See the full documentation for this base by accessing: https://constatic-docs.vercel.app/docs/discord/start
 
 ## Scripts
 
