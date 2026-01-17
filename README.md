@@ -1,4 +1,4 @@
-# ![PCM Verify](https://i.imgur.com/PHUEcAj.png)
+# ![PCM Verify](https://i.imgur.com/PHUEcAj.png) PCM Verify
 
 > [!WARNING]
 > [Node.js](https://nodejs.org/en) version required: 22.12.0 or higher\
