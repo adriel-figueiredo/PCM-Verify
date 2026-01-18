@@ -21,12 +21,8 @@ createCommand({
 		const IsPending = await databaseGet(`verifications/${userId}`)
 		if (IsPending) {
 			const verifyData: DoingVerify = IsPending;
-			if (Date.now() - verifyData.timestamp > 60 * 60 * 1000) {
-				await databaseSet(`verifications/${userId}`, null);
-			} else {
-				interaction.editReply(`You **already have** a pending verification. Go to **([PCM] Lobby)[https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground]** and place the following code:\n# \`${verifyData.code}\``);
-				return;
-			}
+			interaction.editReply(`You **already have** a pending verification. Go to **([PCM] Lobby)[https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground]** and place the following code:\n# \`${verifyData.code}\``);
+			return;
 		}
 
 		// Generate verification code and store it in database
@@ -34,6 +30,10 @@ createCommand({
 		await databaseSet(`verifications/${userId}`, {
 			code: code,
 			timestamp: Date.now()
+		});
+
+		await databaseSet(`roblox_code_lookup/${code}`, {
+			id: userId
 		});
 
 		interaction.editReply(`Now to **finish** the verification, go to **([PCM] Lobby)[https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground]** and place the following code:\n# \`${code}\``);

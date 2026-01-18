@@ -1,63 +1,24 @@
-import { createCommand, createResponder } from "#base";
-import { ResponderType } from "@constatic/base";
-import { createContainer, createSection, Separator } from "@magicyan/discord";
-import { ApplicationCommandType, ButtonBuilder, ButtonStyle, InteractionReplyOptions } from "discord.js";
+import { createCommand, } from "#base";
+import { ApplicationCommandOptionType, ApplicationCommandType } from "discord.js";
 
 createCommand({
-    name: "counter",
-    description: "Counter command 🔢",
+    name: "invite",
+    description: "Go to any of the PCM Discord servers.",
     type: ApplicationCommandType.ChatInput,
-    async run(interaction) {
-        await interaction.reply(counterMenu(0));
+    options: [
+        {
+            name: "main",
+            description: "The invite code to the main server.",
+            type: ApplicationCommandOptionType.String
+        },
+        {
+            name: "appeals",
+            description: "The invite code to the appeals server.",
+            type: ApplicationCommandOptionType.String
+        },
+    ],
+    async run(interaction){
+        const { options } = interaction;
+        console.log(options)
     }
 });
-
-createResponder({
-    customId: "counter/:current",
-    types: [ResponderType.Button], cache: "cached",
-    parse: params => ({
-        current: Number.parseInt(params.current)
-    }),
-    async run(interaction, { current }) {
-        await interaction.update(
-            counterMenu(current)
-        );
-    },
-});
-
-function counterMenu<R>(current: number): R {
-    const container = createContainer("Random",
-        createSection(
-            `## Current value: \` ${current} \``,
-            new ButtonBuilder({
-                customId: `counter/00`,
-                label: "Reset",
-                disabled: current === 0,
-                style:
-                    current > 0 ? ButtonStyle.Primary :
-                        current < 0 ? ButtonStyle.Danger :
-                            ButtonStyle.Secondary
-            }),
-        ),
-        Separator.Default,
-        createSection(
-            "Increment value",
-            new ButtonBuilder({
-                customId: `counter/${current + 1}`,
-                label: "+", style: ButtonStyle.Success
-            }),
-        ),
-        createSection(
-            "Decrement value",
-            new ButtonBuilder({
-                customId: `counter/${current - 1}`,
-                label: "-", style: ButtonStyle.Danger
-            }),
-        ),
-    );
-
-    return ({
-        flags: ["Ephemeral", "IsComponentsV2"],
-        components: [container]
-    } satisfies InteractionReplyOptions) as R;
-}

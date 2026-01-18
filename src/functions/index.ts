@@ -1,5 +1,4 @@
 import { env } from "#env";
-import { fa } from "zod/locales";
 const DATABASE_URL = env.DATABASE_URL;
 const DATABASE_KEY = env.DATABASE_KEY;
 
@@ -14,15 +13,17 @@ export const databaseGet = async (path:string): Promise<any> => {
     return data ? data : false;
 };
 
-export const databaseSet = async (path:string, value: unknown) => {
-    const response = await fetch(`${DATABASE_URL}/${path}.json?auth=${DATABASE_KEY}`, {
-        method: 'PATCH',
+export const databaseSet = async (path:string, value: unknown, chooseMethod?: string) => {
+    const method = chooseMethod ? chooseMethod : "PATCH"
+
+    await fetch(`${DATABASE_URL}/${path}.json?auth=${DATABASE_KEY}`, {
+        method: method,
         body: JSON.stringify(value)
     });
 }
 
 export const codeGenerate = async (parentVerify:string): Promise<string> => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_-+=?<>:;|^';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     
     let codeExists = true;
     let code = '';
