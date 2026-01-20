@@ -7,8 +7,9 @@ createCommand({
 	description: "Registers your discord account with your roblox account.",
 	type: ApplicationCommandType.ChatInput,
 	async run(interaction) {
-		const userId = interaction.user.id;
 		await interaction.deferReply({ ephemeral: true });
+
+		const userId = interaction.user.id;
 
 		// Checks if user is already verified
 		const IsVerified = await databaseGet(`users/${userId}`)
@@ -21,7 +22,7 @@ createCommand({
 		const IsPending = await databaseGet(`verifications/${userId}`)
 		if (IsPending) {
 			const verifyData: DoingVerify = IsPending;
-			interaction.editReply(`You **already have** a pending verification. Go to **([PCM] Lobby)[https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground]** and place the following code:\n# \`${verifyData.code}\``);
+			interaction.editReply(`You **already have** a pending verification. Go to **[PCM Lobby](https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground)** and place the following code:\n# \`${verifyData.code}\``);
 			return;
 		}
 
@@ -32,11 +33,12 @@ createCommand({
 			timestamp: Date.now()
 		});
 
+		// Roblox code lookup for easy searching
 		await databaseSet(`roblox_code_lookup/${code}`, {
 			id: userId
 		});
 
-		interaction.editReply(`Now to **finish** the verification, go to **([PCM] Lobby)[https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground]** and place the following code:\n# \`${code}\``);
+		interaction.editReply(`Now to **finish** the verification, go to **[PCM Lobby](https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground)** and place the following code:\n# \`${code}\``);
 		return;
 	}
 });
