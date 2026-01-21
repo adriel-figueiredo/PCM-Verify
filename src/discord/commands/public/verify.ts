@@ -1,6 +1,6 @@
 import { createCommand } from "#base";
+import { codeGenerate, databaseGet, databaseSet, DoingVerify } from "#functions";
 import { ApplicationCommandType } from "discord.js";
-import { databaseGet, databaseSet, codeGenerate, DoingVerify } from "#functions";
 
 createCommand({
 	name: "verify",
@@ -12,16 +12,16 @@ createCommand({
 		const userId = interaction.user.id;
 
 		// Checks if user is already verified
-		const IsVerified = await databaseGet(`users/${userId}`)
-		if (IsVerified) {
+		const isVerified = await databaseGet(`users/${userId}`)
+		if (isVerified) {
 			interaction.editReply("## You are **already verified**!");
 			return;
 		}
 
 		// Checks if user has a pending verification
-		const IsPending = await databaseGet(`verifications/${userId}`)
-		if (IsPending) {
-			const verifyData: DoingVerify = IsPending;
+		const isPending = await databaseGet(`verifications/${userId}`)
+		if (isPending) {
+			const verifyData: DoingVerify = isPending;
 			interaction.editReply(`You **already have** a pending verification. Go to **[PCM Lobby](https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground)** and place the following code:\n# \`${verifyData.code}\``);
 			return;
 		}

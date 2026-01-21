@@ -18,4 +18,6 @@
 *.db
 *.development.json
 
+/package-lock.json
+/.qodo
 /.vscode

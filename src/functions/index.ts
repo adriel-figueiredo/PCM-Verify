@@ -8,9 +8,18 @@ interface DoingVerify {
 }
 
 export const databaseGet = async (path:string): Promise<any> => {
-    const response = await fetch(`${DATABASE_URL}/${path}.json?auth=${DATABASE_KEY}`);
-    const data = response ? await response.json() : false;
-    return data ? data : false;
+    try {
+        const response = await fetch(`${DATABASE_URL}/${path}.json?auth=${DATABASE_KEY}`);
+        if (!response.ok) {
+            console.error(`HTTP status: ${response.status}`);
+            return false;
+        }
+        const data = await response.json();
+        return data ? data : false;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return false;
+    }
 };
 
 export const databaseSet = async (path:string, value: unknown, chooseMethod?: string) => {
@@ -34,6 +43,10 @@ export const codeGenerate = async (parentVerify:string): Promise<string> => {
             code += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         codeExists = await databaseGet(`${parentVerify}/${code}`);
+        if (!codeExists) {
+            new Promise(resolve => setTimeout(resolve, 100));
+            break;
+        }
     }
     
     return code;

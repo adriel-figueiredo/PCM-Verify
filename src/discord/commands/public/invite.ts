@@ -1,7 +1,7 @@
 import { createCommand, } from "#base";
-import { ApplicationCommandOptionType, ApplicationCommandType } from "discord.js";
-import { databaseGet, DoingVerify } from "#functions";
 import { env } from "#env";
+import { databaseGet, DoingVerify } from "#functions";
+import { ApplicationCommandOptionType, ApplicationCommandType } from "discord.js";
 const MAIN_SERVER = env.MAIN_SERVER;
 const MAIN_VERIFY = env.MAIN_VERIFY;
 
@@ -37,9 +37,9 @@ createCommand({
         switch (server) {
             case "main":
                 // Checks if user is already verified
-                const IsVerified = await databaseGet(`users/${userId}`)
+                const isVerified = await databaseGet(`users/${userId}`)
 
-                if (IsVerified) {
+                if (isVerified) {
                     // User is verified, invite process
                     const mainPCM = await interaction.client.guilds.fetch(MAIN_SERVER)
                     const userInPCM = await mainPCM.members.fetch(userId).catch(() => null);
@@ -50,7 +50,7 @@ createCommand({
                         return;
                     }
 
-                    const inviteData = await interaction.client.guilds.cache.get(MAIN_SERVER)?.invites.create(MAIN_VERIFY, {
+                    const inviteData = await mainPCM.invites.create(MAIN_VERIFY, {
                         maxUses: 1,
                         maxAge: 18,
                         unique: true,
@@ -63,10 +63,10 @@ createCommand({
                 }
 
                 // Checks if user has a pending verification
-                const IsPending = await databaseGet(`verifications/${userId}`)
+                const isPending = await databaseGet(`verifications/${userId}`)
 
-                if (IsPending) {
-                    const verifyData: DoingVerify = IsPending;
+                if (isPending) {
+                    const verifyData: DoingVerify = isPending;
                     interaction.editReply(`You **already have** a pending verification. Go to **[PCM Lobby](https://www.roblox.com/games/107292796453428/Legends-Alexandres-Playground)** and place the following code:\n# \`${verifyData.code}\``);
                 } else {
                     interaction.editReply("You need to be verified to join the PCM Main Server! Use the `/verify` command to get started.");
