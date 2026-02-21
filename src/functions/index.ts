@@ -43,6 +43,10 @@ export const codeGenerate = async (parentVerify:string): Promise<string> => {
             code += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         codeExists = await databaseGet(`${parentVerify}/${code}`);
+        if (!codeExists) {
+            new Promise(resolve => setTimeout(resolve, 100));
+            break;
+        }
     }
     
     return code;
