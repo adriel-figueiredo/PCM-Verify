@@ -45,5 +45,4 @@ Made by alex.o3
 ## Credits
 
 Testers: lucaasxz, raphaz_4, piloynaldo and dxrzinh\
-
 Made by blackouty
